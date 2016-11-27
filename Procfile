@@ -1,1 +1,1 @@
-worker: node --harmony-async-await index.js
+worker: node index.js
