@@ -2,8 +2,6 @@ const client = require('cheerio-httpcli');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 
-console.log(process.env = {});
-
 const url = process.env.URL;
 const appno = process.env.APPNO;
 const apikey = process.env.APIKEY
