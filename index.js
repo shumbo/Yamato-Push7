@@ -1,18 +1,15 @@
-const co = require('co');
-const cheerio = require('cheerio');
+const client = require('cheerio-httpcli');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 
 const url = process.env.URL;
 const appno = process.env.APPNO;
-const apikey = process.env.APIKEY;
+const apikey = process.env.APIKEY
 
 let saved = [];
 
 function process() {
-  co(function* () {
-    const html = yield axios.get(url).then(h => h.data);
-    let $ = cheerio.load(html);
+  client.fetch(url, {}, function (err, $, res, body) {
     const elements = $('.meisai').find('tr');
     elements.splice(0, 1);
     const data = elements.toArray().map(e => {
@@ -27,8 +24,8 @@ function process() {
     const tmp = data.concat();
     data.splice(0, saved.length);
     saved = tmp;
-    const tasks = data.map(d=>{
-      return axios.post(`https://api.push7.jp/api/v1/${appno}/send`,{
+    const tasks = data.map(d => {
+      return axios.post(`https://api.push7.jp/api/v1/${appno}/send`, {
         title: 'ステータス更新',
         body: d.status,
         icon: 'https://i.imgur.com/DXTlaTE.png',
@@ -37,11 +34,10 @@ function process() {
       });
     });
     console.log(tasks.length);
-    yield Promise.all(tasks);
   });
 }
 new CronJob({
   cronTime: '*/10 * * * * *',
   onTick: process,
-  start:true
+  start: true
 });

@@ -19,9 +19,7 @@
   "homepage": "https://github.com/shumbo/Yamato-Push7#readme",
   "dependencies": {
     "axios": "^0.15.2",
-    "cheerio": "^0.22.0",
-    "co": "^4.6.0",
-    "cron": "^1.1.1",
-    "node-cron": "^1.1.2"
+    "cheerio-httpcli": "^0.6.9",
+    "cron": "^1.1.1"
   }
 }
