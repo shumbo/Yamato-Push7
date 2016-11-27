@@ -2,13 +2,15 @@ const client = require('cheerio-httpcli');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 
+console.log(process.env = {});
+
 const url = process.env.URL;
 const appno = process.env.APPNO;
 const apikey = process.env.APIKEY
 
 let saved = [];
 
-function process() {
+function task() {
   client.fetch(url, {}, function (err, $, res, body) {
     const elements = $('.meisai').find('tr');
     elements.splice(0, 1);
@@ -38,6 +40,6 @@ function process() {
 }
 new CronJob({
   cronTime: '*/10 * * * * *',
-  onTick: process,
+  onTick: task,
   start: true
 });
